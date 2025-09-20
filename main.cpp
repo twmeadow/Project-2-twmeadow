@@ -29,6 +29,7 @@ int main() {
 
     Queue<csvData> dataQueue;
     vector<csvData> csvDataV;
+    Stack<csvData> dataStack;
 
     string filePath = "../Bella_Beats_Analysis_Master_Dataset_Cleaned.csv";
 
@@ -36,11 +37,31 @@ int main() {
 
     for (int i = 0; i <= 10; i++)
     {
+
         csvData tempData = csvDataV[i];
+        cout << tempData << endl;
         dataQueue.enqueue(tempData);
     }
 
-    dataQueue.print();
+    cout << ""<<endl;
+    for (int i = 0; i <= 10; i++)
+    {
+        csvData tempData = dataQueue.dequeue();
+        dataStack.push(tempData);
+         // cout << "Pushed" << endl;
+
+    }
+
+    for (int i = 0; i <= 10; i++)
+    {
+        csvData tempData = dataStack.pop();
+        cout << tempData << endl;
+    }
+
+
+    //dataQueue.print();
+
+
 
     return 0;
 }

@@ -18,7 +18,7 @@ The search and prints for both are linear, because they have to iterate over the
 
 The pointers point from the front of the Queue to the back. The last item always points to null ptr. This makes the time less complex because if you store the pointer of the last term, 
 then whenever you add a new term you can just 'insert it' where the previous last item was. 
-The complexity for both enqueue and dequeue is constant, there is one pointer that stores the node at the top of queue, 
+The complexity for both enqueue and dequeue is constant, there is one pointer that stores the node at the front of queue, 
 and node at the end, while this is 'twice as many' as a stack, it means nothing has to be iterated to enqueue/dequeue.
 
 * An explanation of when and why the 10 objects in the main function changed their order

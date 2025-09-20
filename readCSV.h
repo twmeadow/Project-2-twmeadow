@@ -1,4 +1,3 @@
-//
 // Created by Tyler Meadows on 9/6/25.
 //
 #include <iostream>
@@ -85,105 +84,86 @@ int getDataFromFile(vector<csvData>& csvDataV, const string &fileName)
     if (fileIn)
     {
         //define variables for file
-        string id, date, header, endstr, temp;
+        string id, date, header, temp;
         int dataNum, steps, calories, minutes, heartBeatRate;
         char comma;
         int count = 0;
 
         //read and check header
         getline(fileIn, header);
-        //cout << header << endl;
 
         //loop until file is empty
         while (fileIn.peek() != EOF)
         {
-            fileIn >> dataNum;   // read "Data_Entry"
-            fileIn.get(comma);     // eat the comma so id lines up properly
+            fileIn >> dataNum;        // read "Data_Entry"
+            fileIn.get(comma);        // eat the comma so id lines up properly
 
             //read id and date into strings for simplicity
             getline(fileIn, id, ',');
             getline(fileIn, date, ',');
 
-            //I wanted to remove all of the 'dud' data,
-            //so if there were no steps those day I made the value -1, so its easily noticeable
+            // steps
             fileIn >> steps;
-            if (steps == 0)
-            {
-                steps = -1;
-            }
-            fileIn >> comma;
+            if (steps == 0) { steps = -1; }
+            fileIn.get(comma);
 
-            //I repeated this process for calories aswell.
+            // calories
             fileIn >> calories;
             if (calories == 0) { calories = -1; }
-            fileIn >> comma;
+            fileIn.get(comma);
 
-            //I did something similar for minutes and heart beat rate
+            // minutes
             getline(fileIn, temp, ',');
+            while (!temp.empty() && (temp.back() == '\r' || temp.back() == ' '))
+                temp.pop_back();
             if (temp.empty() || temp == "Not-Given") {
                 minutes = -1;
             } else {
                 minutes = std::stoi(temp);
             }
 
-            getline(fileIn, temp, '\r');
+            // heart beat rate (last field to end of line)
+            getline(fileIn, temp);
+            while (!temp.empty() && (temp.back() == '\r' || temp.back() == ' '))
+                temp.pop_back();
             if (temp.empty() || temp == "Not-Given") {
                 heartBeatRate = -1;
             } else {
                 heartBeatRate = std::stoi(temp);
             }
 
-            //If any of the data is left out, it will be set to negative 1, and it wont add the data to the vector
+            // push only if all fields are valid
             if (steps > 0 && calories > 0 && minutes > 0 && heartBeatRate > 0)
             {
-                //create new csvData object, then push it to the vector of objects
                 csvDataV.push_back(csvData(dataNum, id, date, steps, calories, minutes, heartBeatRate));
-                //cout << "id:" << id << endl;
-                //cout << "Date:" << date << endl;
-                //cout << "steps:" << steps << endl;
-                //cout << "calories:" << calories << endl;
-                //cout << "minutes:" <<minutes << endl;
-                //cout << "heartBeatRate:" << heartBeatRate << endl;
-
-                //Count was just to check how many items there were
-                count = count + 1;
+                count++;
             }
         }
 
-        //cout << endl << "Count: " << count  << endl;
         return count;
     }
 }
 
 double getAverageFromRow(vector<csvData>& csvDataV, string rowName)
 {
-    //Check that rowName is a valid string, these are the only options that have numeric data so you must enter one of these
     if (rowName == "steps" || rowName == "calories" || rowName == "minutes" || rowName == "heartBeatRate")
     {
-        //initializing variables
         int sum = 0;
         int count = 0;
         double avg;
-        //loop over the length of the vector
         for (int i = 0; i < csvDataV.size(); i++)
         {
-            //update sum depending on the row that was input via rowName
-            if (rowName == "steps") { sum = sum + csvDataV[i].getSteps();}
-            if (rowName == "calories") { sum = sum + csvDataV[i].getCalories();}
-            if (rowName == "minutes") { sum = sum + csvDataV[i].getMinutes();}
-            if (rowName == "heartBeatRate") {sum = sum + csvDataV[i].getHeartBeatRate();}
-
-            //update count
-            count = count + 1;
+            if (rowName == "steps") { sum += csvDataV[i].getSteps();}
+            if (rowName == "calories") { sum += csvDataV[i].getCalories();}
+            if (rowName == "minutes") { sum += csvDataV[i].getMinutes();}
+            if (rowName == "heartBeatRate") { sum += csvDataV[i].getHeartBeatRate();}
+            count++;
         }
-
-        //preform standard average calculation
         avg = static_cast<double>(sum) / count;
-        //return average
         return avg;
-
-        //if its not a valid row that has been entered just return -1
-    } else {return -1.0;}
+    } else {
+        return -1.0;
+    }
 }
 
 #endif //PROJECT1_readCSV_H

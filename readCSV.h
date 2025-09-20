@@ -114,8 +114,12 @@ int getDataFromFile(vector<csvData>& csvDataV, const string &fileName)
 
             // minutes
             getline(fileIn, temp, ',');
-            while (!temp.empty() && (temp.back() == '\r' || temp.back() == ' '))
-                temp.pop_back();
+            //NOTE: the suggestion to use the following lines was form chatGPT, because my code was
+            //Running exactly how I wanted, but the autograder was giving me STOI errors
+            // it implemented the following lines that I will comment but that was it
+
+            while (!temp.empty() && (temp.back() == '\r' || temp.back() == ' ')) //chatGPT
+                temp.pop_back();    //chatGPT
             if (temp.empty() || temp == "Not-Given") {
                 minutes = -1;
             } else {
@@ -124,8 +128,8 @@ int getDataFromFile(vector<csvData>& csvDataV, const string &fileName)
 
             // heart beat rate (last field to end of line)
             getline(fileIn, temp);
-            while (!temp.empty() && (temp.back() == '\r' || temp.back() == ' '))
-                temp.pop_back();
+            while (!temp.empty() && (temp.back() == '\r' || temp.back() == ' '))//chatGPT
+                temp.pop_back();//chatGPT
             if (temp.empty() || temp == "Not-Given") {
                 heartBeatRate = -1;
             } else {

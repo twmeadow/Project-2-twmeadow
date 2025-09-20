@@ -31,6 +31,16 @@ class csvData
             this->heartBeatRate = heartBeatRate;
         }
 
+        csvData()
+        {
+            this->id = "";
+            this->date = "";
+            this->steps = 0;
+            this->calories = 0;
+            this->minutes = 0;
+            this->heartBeatRate = 0;
+        }
+
         //Getters and setters
 
         string getId() const {return id;}
@@ -58,6 +68,16 @@ class csvData
 
         void setHeartBeatRate(int hbr) {heartBeatRate = hbr;}
 
+        friend std::ostream& operator<<(std::ostream& os, const csvData& data)
+            {
+                os << "ID:" << data.id << ", "
+                   << "Date:" <<data.date << ", "
+                   << data.steps << ", "
+                   << data.calories << ", "
+                   << data.minutes << ", "
+                   << data.heartBeatRate;
+                return os;
+            }
 
 
 
@@ -177,6 +197,7 @@ double getAverageFromRow(vector<csvData>& csvDataV, string rowName)
 
         //if its not a valid row that has been entered just return -1
     } else {return -1.0;}
+
 
 }
 

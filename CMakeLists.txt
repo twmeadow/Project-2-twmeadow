@@ -8,4 +8,5 @@ include_directories(.)
 add_executable(Project2
         main.cpp
         Node.h
-        Stack.h)
+        Stack.h
+        Queue.h)

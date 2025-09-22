@@ -39,23 +39,23 @@ int main() {
     {
 
         csvData tempData = csvDataV[i];
-        cout << tempData << endl;
         dataQueue.enqueue(tempData);
     }
+
+    dataQueue.print();
 
     cout << ""<<endl;
     for (int i = 0; i <= 10; i++)
     {
         csvData tempData = dataQueue.dequeue();
         dataStack.push(tempData);
-         // cout << "Pushed" << endl;
-
     }
+
+    dataStack.print();
 
     for (int i = 0; i <= 10; i++)
     {
         csvData tempData = dataStack.pop();
-        cout << tempData << endl;
     }
 
 
